@@ -1,0 +1,35 @@
+#include <16f877a.h>                // Incluye las definiciones del PIC16F877A
+#fuses xt, nowdt, put, noprotect    // Configura los fusibles: 
+                                    // xt: Oscilador en modo cristal (4 MHz)
+                                    // nowdt: Desactiva el Watchdog Timer
+                                    // put: Habilita el Power-Up Timer
+                                    // noprotect: Desactiva la protección de código
+
+#device adc=10                      // Configura el ADC con una resolución de 10 bits (0-1023)
+#use delay(clock=4M)                // Establece la frecuencia del reloj a 4 MHz
+////  Example of pin access:                                               ////
+#define LCD_ENABLE_PIN  PIN_D0                                    ////
+#define LCD_RS_PIN      PIN_D1                                    ////
+#define LCD_RW_PIN      PIN_D2                                    ////
+#define LCD_DATA4       PIN_D4                                    ////
+#define LCD_DATA5       PIN_D5                                    ////
+#define LCD_DATA6       PIN_D6                                    ////
+#define LCD_DATA7       PIN_D7 
+#include <lcd.c>                    // Incluye las funciones para el control del LCD
+#include <stdint.h>
+
+void main(void){
+   uint16_t ADC_1;
+   lcd_init();
+   setup_adc_ports(AN0);           // Configura AN0 como entrada analógica
+   setup_adc(ADC_CLOCK_INTERNAL);  // Configura el ADC para usar el reloj interno
+   lcd_putc("\f");
+   lcd_gotoxy(1,1);
+   lcd_putc("Hola");
+   while(true){
+   set_adc_channel(0);             // Selecciona el canal AN0 del ADC
+   ADC_1 = read_adc();
+   printf(lcd_putc,"ADC: %Lu",ADC_1);
+   }
+}
+

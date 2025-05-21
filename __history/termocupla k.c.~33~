@@ -1,0 +1,43 @@
+#include <16f877a.h>
+#fuses xt, nowdt, put, noprotect
+#device adc=10
+#use delay(clock=4M)
+
+#define LCD_ENABLE_PIN  PIN_D0
+#define LCD_RS_PIN      PIN_D1
+#define LCD_RW_PIN      PIN_D2
+#define LCD_DATA4       PIN_D4
+#define LCD_DATA5       PIN_D5
+#define LCD_DATA6       PIN_D6
+#define LCD_DATA7       PIN_D7 
+#include <lcd.c>
+#include <stdint.h>
+
+int16_t map(int16_t x, int16_t in_min, int16_t in_max, int16_t out_min, int16_t out_max) {
+    int32_t result = ((int32_t)(x - in_min) * (out_max - out_min)) / (in_max - in_min);
+    return (int16_t)(result + out_min);
+}
+
+void main(void){
+   uint16_t ADC_1=0;
+   int16_t T =0;
+   lcd_init();
+   setup_adc_ports(AN0);
+   setup_adc(ADC_CLOCK_INTERNAL);
+   set_adc_channel(0);
+
+   
+   lcd_putc("\f");
+   lcd_gotoxy(1,1);
+   lcd_putc("TEMPERATURA");
+   
+   while(true){
+      set_adc_channel(0);
+      delay_us(20);
+      ADC_1 = read_adc();
+      T = map(ADC_1, 0, 1023, 0, 500); 
+      lcd_gotoxy(1,2);
+      printf(lcd_putc,"ADC:%4Lu T:%4Ld", ADC_1, T);      
+      delay_ms(500);  // Retardo para estabilizar la visualización
+   }
+}

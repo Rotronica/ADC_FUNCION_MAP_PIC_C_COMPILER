@@ -1,0 +1,22 @@
+[PROJECT]
+Target=termocupla k.hex
+Processor_Text=PIC16F877A
+CCSVersion=5.015
+Compiler=PCM
+[Target Data]
+FileList=termocupla k.c
+[Directories]
+Include=C:\Program Files (x86)\PICC\Devices\;C:\Program Files (x86)\PICC\Drivers\
+[termocupla k.c]
+Type=4
+[mru-list]
+1=termocupla k.c
+[Opened Files]
+1=termocupla k.c
+2=
+3=..\..\MICRO\LENGUAJE C\INTERRUPCION TMR0 SEÑAL CUADRADA 1KHz.c
+4=C:\Program Files (x86)\PICC\Drivers\lcd.c
+5=
+[Units]
+Count=1
+1=termocupla k (main)
